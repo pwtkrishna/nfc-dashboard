@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { SideBarLinkTypes } from "@/types/sidebar-links";
 import DashboardSvgIcon from "./ui/svgs/DashboardSvgIcon";
-import ProfileSvgIcon from "./ui/svgs/ProfileSvgIcon";
 import Logo from "./ui/Logo";
+import MyProfilesSvgIcon from "./ui/svgs/MyProfilesSvgIcon";
+import ProfileSettingSvgIcon from "./ui/svgs/ProfileSettingSvgIcon";
 
 const sideBarLinks: SideBarLinkTypes = [
   {
@@ -11,15 +12,20 @@ const sideBarLinks: SideBarLinkTypes = [
     icon: DashboardSvgIcon,
   },
   {
-    title: "Profile",
-    href: "/manage-profile",
-    icon: ProfileSvgIcon,
+    title: "My Profiles",
+    href: "/my-profiles",
+    icon: MyProfilesSvgIcon,
+  },
+  {
+    title: "Profile Settings",
+    href: "/profile",
+    icon: ProfileSettingSvgIcon,
   },
 ];
 
 const Sidebar = () => {
   return (
-    <div className="w-[288px] bg-[#1a1825] p-4 text-white">
+    <div className="w-[250px] bg-[#1a1825] p-4 text-white">
       <div className="flex m-6 items-center justify-center">
         <Logo />
       </div>

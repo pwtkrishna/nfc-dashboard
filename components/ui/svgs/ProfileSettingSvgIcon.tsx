@@ -1,6 +1,6 @@
 import { FC, SVGProps } from "react";
 
-const ProfileSvgIcon: FC<SVGProps<SVGSVGElement>> = () => {
+const ProfileSettingSvgIcon: FC<SVGProps<SVGSVGElement>> = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -29,4 +29,4 @@ const ProfileSvgIcon: FC<SVGProps<SVGSVGElement>> = () => {
   );
 };
 
-export default ProfileSvgIcon;
+export default ProfileSettingSvgIcon;

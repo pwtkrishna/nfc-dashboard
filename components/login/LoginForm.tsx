@@ -87,11 +87,7 @@ const LoginForm = () => {
             className="text-[#191724]  block w-full py-[16.5px] px-[14px] rounded-lg border-[#0000003b] border bg-white focus:border-[#3b82f680] focus:outline-[#3b82f680] focus:bg-white"
           />
 
-          <Button
-            type="submit"
-            loading={loading}
-            className="bg-[#00A8CC] cursor-pointer w-full text-[1rem] rounded-lg py-3 px-6 text-white hover:bg-[#0891b2]"
-          >
+          <Button type="submit" loading={loading} variant="login">
             Login
           </Button>
         </Form>

@@ -1,5 +1,5 @@
 "use client";
-import { login } from "@/services/auth";
+import { login } from "@/lib/auth";
 import { useState } from "react";
 
 export function useLogin() {

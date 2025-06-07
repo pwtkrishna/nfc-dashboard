@@ -1,5 +1,25 @@
 @import "tailwindcss";
 
+/* //////////////////// */
+/* ////// Profile Card /////////// */
+/* ////////////////////////////*/
+
+.user-profile-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  overflow: hidden;
+}
+
+.profile-card__job-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
 /* ////////////////////// */
 /* /////// INPUT ////// */
 /* //////////////// */
