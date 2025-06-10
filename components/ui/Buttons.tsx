@@ -1,10 +1,10 @@
-import React from "react";
 import { FiRefreshCw } from "react-icons/fi";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
   variant?: keyof typeof variants;
   toolTip?: string;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const variants = {
@@ -15,7 +15,9 @@ const variants = {
   login:
     "bg-[#00A8CC] cursor-pointer w-full text-[1rem] rounded-lg py-3 px-6 text-white hover:bg-[#0891b2]",
   reload:
-    "flex items-center justify-center bg-gray-200 text-[#00A8CC] hover:bg-gray-300 rounded-full w-10 h-10 p-0",
+    "flex items-center justify-center bg-gray-200 text-[#00A8CC] hover:bg-gray-300 rounded-full w-10 h-10 p-0 cursor-pointer",
+  profileHeaderIcons:
+    "cursor-pointer font-semibold text-sm leading-7 border-r border-r-[#0000001f]  flex flex-col items-center justify-center gap-2 p-2",
   none: "border-none outline-none bg-none ",
 };
 
@@ -25,6 +27,7 @@ const Button: React.FC<ButtonProps> = ({
   variant = "filled",
   className = "",
   toolTip,
+  onClick,
   ...props
 }) => (
   <button
@@ -32,29 +35,15 @@ const Button: React.FC<ButtonProps> = ({
     disabled={loading || props.disabled}
     {...props}
     title={toolTip}
+    onClick={onClick}
   >
     {variant === "reload" ? (
       loading ? (
-        // Loading spinner (optional)
-        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="#00A8CC"
-            strokeWidth="4"
-            fill="none"
-          />
-          <path
-            className="opacity-75"
-            fill="#00A8CC"
-            d="M4 12a8 8 0 018-8v4l5-5-5-5v4a10 10 0 100 20v-2a8 8 0 01-8-8z"
-          />
-        </svg>
+        // Loading spinner with rotation animation
+        <FiRefreshCw className="h-5 w-5 animate-spin" />
       ) : (
-        // Reload icon (with react-icons or your own SVG)
-        <FiRefreshCw className="h-5 w-5" />
+        // Reload icon
+        <FiRefreshCw className="h-5 w-5 hover:rotate-180 transition-transform duration-300" />
       )
     ) : loading ? (
       "Loading..."
