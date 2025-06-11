@@ -29,7 +29,7 @@ const ProfileCoverPhoto = ({
   return (
     <div className="flex items-center text-center justify-between flex-col gap-4 w-full">
       <div
-        className="flex items-center justify-center relative bg-[#e0e0e0]  py-6 border-2 border-[rgb(206,212,218)] rounded-2xl hover:border-[#007da4] aspect-[16 / 9] h-[130px] w-full transition-[border-color]
+        className="flex items-center justify-center relative bg-[#e0e0e0] border-2 border-[rgb(206,212,218)] rounded-2xl hover:border-[#007da4] aspect-[16 / 9] h-[130px] w-full transition-[border-color]
 duration-250
 [ease-[cubic-bezier(0.4,0,0.2,1)]]
 "
@@ -41,7 +41,7 @@ duration-250
               alt={activeProfile?.username}
               width={100}
               height={100}
-              className="w-full h-full text-center object-cover rounded-[50%]"
+              className="w-full h-full text-center object-cover "
             />
           ) : (
             <div className="text-white flex items-center justify-center h-full ">

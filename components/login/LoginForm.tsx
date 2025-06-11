@@ -8,6 +8,7 @@ import Input from "../ui/Input";
 import Button from "../ui/Buttons";
 import Logo from "../ui/Logo";
 import { useRouter, useSearchParams } from "next/navigation";
+import Label from "../ui/Label";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -64,9 +65,9 @@ const LoginForm = () => {
             onChange={(e) => setUserType(e.target.value)}
             className="hidden"
           />
+          <Label>Email</Label>
           <Input
             id="email"
-            label="Email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -75,6 +76,7 @@ const LoginForm = () => {
             placeholder="Enter your email address"
             className="text-[#191724] block w-full py-[16.5px] px-[14px] rounded-lg border-[#0000003b] border bg-white focus:border-[#3b82f680] focus:outline-[#3b82f680] focus:bg-white"
           />
+          <Label>Password</Label>
           <Input
             id="password"
             label="Password"

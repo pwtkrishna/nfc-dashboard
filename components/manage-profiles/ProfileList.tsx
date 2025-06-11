@@ -33,21 +33,18 @@ const ProfileList = () => {
           toolTip="Refresh"
         ></Button>
       </div>
-      {isValidating ? (
-        <Loader />
-      ) : (
-        <div className="flex flex-wrap pb-4">
-          {profiles.map((profile: UserProfile) => {
-            return (
-              <ProfileListCard
-                profile={profile}
-                key={profile.id}
-                mutate={mutate}
-              />
-            );
-          })}
-        </div>
-      )}
+
+      <div className="flex flex-wrap pb-4">
+        {profiles.map((profile: UserProfile) => {
+          return (
+            <ProfileListCard
+              profile={profile}
+              key={profile.id}
+              mutate={mutate}
+            />
+          );
+        })}
+      </div>
     </>
   );
 };

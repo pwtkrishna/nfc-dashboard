@@ -29,7 +29,7 @@ const ProfileAvatar = ({
   return (
     <div className="flex items-center text-center justify-between flex-col gap-4">
       <div
-        className="flex items-center justify-center relative bg-[#e0e0e0]  py-6 border-2 border-[rgb(206,212,218)] rounded-[50%] hover:border-[#007da4] w-[130px] h-[130px] transition-[border-color]
+        className="flex items-center justify-center relative bg-[#e0e0e0]   border-2 border-[rgb(206,212,218)] rounded-[50%] hover:border-[#007da4] w-[130px] h-[130px] transition-[border-color]
 duration-250
 [ease-[cubic-bezier(0.4,0,0.2,1)]]
 "
@@ -44,7 +44,7 @@ duration-250
               className="w-full h-full text-center object-cover rounded-[50%]"
             />
           ) : (
-            <div className="text-white flex items-center justify-center">
+            <div className="text-white flex items-center justify-center py-6">
               <svg
                 className="w-3/4 h-3/4 transition-[fill] duration-200 [ease-[cubic-bezier(0.4,0,0.2,1)]]
 "

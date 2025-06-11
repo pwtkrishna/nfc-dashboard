@@ -32,7 +32,7 @@ const ProfileContent = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       setCoverPhoto((prev) =>
-        prev ? { ...prev, coverPhoto: e.target?.result as string } : prev
+        prev ? { ...prev, avatar_original: e.target?.result as string } : prev
       );
     };
     reader.readAsDataURL(file);
@@ -70,15 +70,18 @@ const ProfileContent = () => {
           }}
         >
           <div className="flex-[1] h-full overflow-y-auto ">
-            <form action="">
-              <ProfileEditSection
-                activeProfile={profile}
-                selectedTab={selectedTab}
-                setProfile={setProfile}
-                onAvatarChange={handleAvatarChange}
-                onCoverPhotoChange={handleCoverPhotoChange}
-              />
-            </form>
+            {activeProfile && (
+              <form action="">
+                <ProfileEditSection
+                  activeProfile={activeProfile}
+                  selectedTab={selectedTab}
+                  setProfile={setProfile}
+                  setCoverPhoto={setCoverPhoto}
+                  onAvatarChange={handleAvatarChange}
+                  onCoverPhotoChange={handleCoverPhotoChange}
+                />
+              </form>
+            )}
           </div>
 
           <div

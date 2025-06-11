@@ -6,19 +6,24 @@ type ProfileStore = {
   activeProfile: UserProfile | null;
   setActiveProfile: (profile: UserProfile) => void;
   clearActiveProfile: () => void;
+  hydrated: boolean;
+  setHydrated: () => void;
 };
 
 export const useProfileStore = create<ProfileStore>()(
   persist(
     (set) => ({
+      hydrated: false,
       activeProfile: null,
       setActiveProfile: (profile) => set({ activeProfile: profile }),
       clearActiveProfile: () => set({ activeProfile: null }),
+      setHydrated: () => set({ hydrated: true }),
     }),
     {
-      name: "active-profile", // key in localStorage
-      // Optionally, use sessionStorage:
-      // storage: () => sessionStorage,
+      name: "active-profile",
+      onRehydrateStorage: () => (state) => {
+        state?.setHydrated();
+      },
     }
   )
 );
