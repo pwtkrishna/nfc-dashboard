@@ -6,14 +6,11 @@ import Button from "../ui/Buttons";
 import { useRef } from "react";
 
 type ProfileAvatarProps = {
-  activeProfile: UserProfile | null;
   onAvatarChange: (file: File) => void;
+  profile: UserProfile | null;
 };
 
-const ProfileAvatar = ({
-  activeProfile,
-  onAvatarChange,
-}: ProfileAvatarProps) => {
+const ProfileAvatar = ({ onAvatarChange, profile }: ProfileAvatarProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,10 +32,10 @@ duration-250
 "
       >
         <Label className="cursor-pointer">
-          {activeProfile?.avatar ? (
+          {profile?.avatar ? (
             <Image
-              src={activeProfile?.avatar}
-              alt={activeProfile?.username}
+              src={profile?.avatar}
+              alt={profile?.username}
               width={100}
               height={100}
               className="w-full h-full text-center object-cover rounded-[50%]"

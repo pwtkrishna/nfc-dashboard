@@ -9,10 +9,11 @@ import SocialLinks from "./SocialLinks";
 type ProfileEditSectionType = {
   selectedTab: Tab;
   activeProfile: UserProfile | null;
-  setProfile?: Dispatch<SetStateAction<UserProfile | null>>;
+  setProfile: Dispatch<SetStateAction<UserProfile | null>>;
   setCoverPhoto?: Dispatch<SetStateAction<UserProfile | null>>;
   onAvatarChange: (file: File) => void;
   onCoverPhotoChange: (file: File) => void;
+  profile: UserProfile | null;
 };
 
 const ProfileEditSection = ({
@@ -20,18 +21,21 @@ const ProfileEditSection = ({
   activeProfile,
   onAvatarChange,
   onCoverPhotoChange,
+  profile,
+  setProfile,
 }: ProfileEditSectionType) => {
   switch (selectedTab) {
     case "profile":
       return (
-        <PersonalInfo activeProfile={activeProfile}>
+        <PersonalInfo
+          profile={profile}
+          setProfile={setProfile}
+          activeProfile={activeProfile}
+        >
           <div className="flex mt-4 mb-6 gap-8 max-md:flex-col">
-            <ProfileAvatar
-              activeProfile={activeProfile}
-              onAvatarChange={onAvatarChange}
-            />
+            <ProfileAvatar profile={profile} onAvatarChange={onAvatarChange} />
             <ProfileCoverPhoto
-              activeProfile={activeProfile}
+              profile={profile}
               onCoverPhotoChange={onCoverPhotoChange}
             />
             <div className="w-[130px] h-[130px]"></div>

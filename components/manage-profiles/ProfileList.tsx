@@ -9,10 +9,7 @@ import Loader from "../ui/Loader";
 const fetcher = () => getUserProfiles();
 
 const ProfileList = () => {
-  const { data, error, isLoading, isValidating, mutate } = useSWR(
-    "/api/profile",
-    fetcher
-  );
+  const { data, error, isLoading, mutate } = useSWR("/api/profile", fetcher);
 
   const profiles = data?.data?.user_profiles || [];
 

@@ -6,12 +6,12 @@ import Button from "../ui/Buttons";
 import { useRef } from "react";
 
 type ProfileAvatarProps = {
-  activeProfile: UserProfile | null;
+  profile: UserProfile | null;
   onCoverPhotoChange: (file: File) => void;
 };
 
 const ProfileCoverPhoto = ({
-  activeProfile,
+  profile,
   onCoverPhotoChange,
 }: ProfileAvatarProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -28,20 +28,15 @@ const ProfileCoverPhoto = ({
 
   return (
     <div className="flex items-center text-center justify-between flex-col gap-4 w-full">
-      <div
-        className="flex items-center justify-center relative bg-[#e0e0e0] border-2 border-[rgb(206,212,218)] rounded-2xl hover:border-[#007da4] aspect-[16 / 9] h-[130px] w-full transition-[border-color]
-duration-250
-[ease-[cubic-bezier(0.4,0,0.2,1)]]
-"
-      >
+      <div className="flex items-center justify-center relative bg-[#e0e0e0] border-2 border-[rgb(206,212,218)] rounded-2xl hover:border-[#007da4] aspect-[16 / 9] h-[170px] w-full transition-[border-color] duration-250 [ease-[cubic-bezier(0.4,0,0.2,1)]]">
         <Label className="cursor-pointer h-full w-full">
-          {activeProfile?.avatar_original ? (
+          {profile?.avatar_original ? (
             <Image
-              src={activeProfile?.avatar_original}
-              alt={activeProfile?.username}
+              src={profile?.avatar_original}
+              alt={profile?.username}
               width={100}
               height={100}
-              className="w-full h-full text-center object-cover "
+              className="w-full h-full text-center object-cover rounded-2xl"
             />
           ) : (
             <div className="text-white flex items-center justify-center h-full ">

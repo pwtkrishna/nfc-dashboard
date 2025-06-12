@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useProfileStore } from "@/store/profile.store";
 import ProfileContentHeader from "./ProfileContentHeader";
 import ProfileEditSection from "./ProfileEditSection";
-import { createProfile } from "@/lib/profile";
+import { updateProfile } from "@/lib/profile";
+import Button from "../ui/Buttons";
 
 const ProfileContent = () => {
   const [selectedTab, setSelectedTab] = useState<"profile" | "links" | "other">(
@@ -12,29 +13,37 @@ const ProfileContent = () => {
   );
   const activeProfile = useProfileStore((state) => state.activeProfile);
   const storeProfile = useProfileStore((state) => state.activeProfile);
+  const hydrated = useProfileStore((state) => state.hydrated);
 
-  const [profile, setProfile] = useState(storeProfile);
-  const [coverPhoto, setCoverPhoto] = useState(storeProfile);
+  const [profile, setProfile] = useState(activeProfile);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (hydrated) {
+      setProfile(activeProfile);
+    }
+  }, [hydrated, activeProfile]);
 
   const handleAvatarChange = (file: File) => {
     const reader = new FileReader();
     reader.onload = (e) => {
-      setProfile((prev) =>
-        prev ? { ...prev, avatar: e.target?.result as string } : prev
-      );
+      const dataUrl = e.target?.result as string;
+      setProfile((prev) => (prev ? { ...prev, avatar: dataUrl } : prev));
     };
+
     reader.readAsDataURL(file);
   };
 
   const handleCoverPhotoChange = (file: File) => {
     const reader = new FileReader();
     reader.onload = (e) => {
-      setCoverPhoto((prev) =>
-        prev ? { ...prev, avatar_original: e.target?.result as string } : prev
+      const dataUrl = e.target?.result as string;
+      setProfile((prev) =>
+        prev ? { ...prev, avatar_original: dataUrl } : prev
       );
     };
+
     reader.readAsDataURL(file);
   };
 
@@ -44,14 +53,24 @@ const ProfileContent = () => {
     setSaving(true);
     setError(null);
     try {
-      await createProfile(profile);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { slug, avatar, avatar_original, ...rest } = profile;
+      const payload = {
+        ...rest,
+        avatar: profile.avatar_base64,
+        avatar_original: profile.avatar_original_base64,
+        status: Boolean(profile.status), // ensure boolean
+      };
+      const updated = await updateProfile(payload);
+      useProfileStore.getState().setActiveProfile(updated);
     } catch (err: any) {
       setError(err.message);
     } finally {
       setSaving(false);
     }
   };
+
+  console.log(profile);
 
   return (
     <>
@@ -71,15 +90,16 @@ const ProfileContent = () => {
         >
           <div className="flex-[1] h-full overflow-y-auto ">
             {activeProfile && (
-              <form action="">
+              <form action="" onSubmit={handleSave}>
                 <ProfileEditSection
                   activeProfile={activeProfile}
+                  profile={profile}
                   selectedTab={selectedTab}
                   setProfile={setProfile}
-                  setCoverPhoto={setCoverPhoto}
                   onAvatarChange={handleAvatarChange}
                   onCoverPhotoChange={handleCoverPhotoChange}
                 />
+                <Button>Save</Button>
               </form>
             )}
           </div>

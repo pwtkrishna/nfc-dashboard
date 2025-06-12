@@ -7,6 +7,8 @@ export type UserProfile = {
   phone: string;
   whatsapp_number: string | null;
   avatar: string;
+  avatar_base64: string;
+  avatar_original_base64: string;
   avatar_original: string | null;
   user_type: string | null;
   about: string;
