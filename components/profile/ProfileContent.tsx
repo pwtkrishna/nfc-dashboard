@@ -80,9 +80,8 @@ const ProfileContent = () => {
         // ...add other fields as needed
       };
 
-      avatar: avatarChanged ? toArray(profile.avatar) : [],
-avatar_original: coverPhotoChanged ? toArray(profile.avatar_original) : [],
-
+      if (avatarChanged) payload.avatar = avatar;
+      if (coverPhotoChanged) payload.avatar_original = avatar_original;
 
       let updated;
       if (isEditMode) {
