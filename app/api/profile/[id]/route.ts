@@ -17,7 +17,7 @@ export async function PATCH(
     const body: UserProfile = await request.json();
 
     const apiRes = await fetch(
-      `https://nfc.aardana.com/api/user-profiles/${id}`,
+      `https://nfc.premierwebtechservices.com/api/user-profiles/${id}`,
       {
         method: "PATCH",
         headers: {

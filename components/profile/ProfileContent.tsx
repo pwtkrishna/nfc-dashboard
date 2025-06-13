@@ -4,10 +4,14 @@ import { useEffect, useState } from "react";
 import { useProfileStore } from "@/store/profile.store";
 import ProfileContentHeader from "./ProfileContentHeader";
 import ProfileEditSection from "./ProfileEditSection";
-import { updateProfile } from "@/lib/profile";
+import { createProfile, updateProfile } from "@/lib/profile";
 import Button from "../ui/Buttons";
+import { useRouter } from "next/navigation";
+import { toArray } from "@/utils/toArray";
 
 const ProfileContent = () => {
+  const router = useRouter();
+
   const [selectedTab, setSelectedTab] = useState<"profile" | "links" | "other">(
     "profile"
   );
@@ -16,8 +20,12 @@ const ProfileContent = () => {
   const hydrated = useProfileStore((state) => state.hydrated);
 
   const [profile, setProfile] = useState(activeProfile);
+  const [avatarChanged, setAvatarChanged] = useState(false);
+  const [coverPhotoChanged, setCoverPhotoChanged] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const isEditMode = Boolean(profile?.id);
 
   useEffect(() => {
     if (hydrated) {
@@ -29,9 +37,9 @@ const ProfileContent = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const dataUrl = e.target?.result as string;
-      setProfile((prev) => (prev ? { ...prev, avatar: dataUrl } : prev));
+      setProfile((prev) => (prev ? { ...prev, avatar: [dataUrl] } : prev));
+      setAvatarChanged(true);
     };
-
     reader.readAsDataURL(file);
   };
 
@@ -40,10 +48,10 @@ const ProfileContent = () => {
     reader.onload = (e) => {
       const dataUrl = e.target?.result as string;
       setProfile((prev) =>
-        prev ? { ...prev, avatar_original: dataUrl } : prev
+        prev ? { ...prev, avatar_original: [dataUrl] } : prev
       );
+      setCoverPhotoChanged(true);
     };
-
     reader.readAsDataURL(file);
   };
 
@@ -53,25 +61,46 @@ const ProfileContent = () => {
     setSaving(true);
     setError(null);
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { slug, avatar, avatar_original, ...rest } = profile;
+      const { avatar, avatar_original, ...rest } = profile;
       const payload = {
         ...rest,
-        avatar: profile.avatar_base64,
-        avatar_original: profile.avatar_original_base64,
-        status: Boolean(profile.status), // ensure boolean
+        name: toArray(profile.name),
+        username: toArray(profile.username),
+        email: toArray(profile.email),
+        about: toArray(profile.about),
+        avatar: toArray(avatarChanged ? avatar : ""),
+        avatar_original: toArray(coverPhotoChanged ? avatar_original : ""),
+        status: toArray(profile.status),
+        company_name: toArray(profile.company_name),
+        job_title: toArray(profile.job_title),
+        is_public: toArray(profile.is_public),
+        allow_contact_form: toArray(profile.allow_contact_form),
+        dark_mode_enabled: toArray(profile.dark_mode_enabled),
+        views_count: toArray(profile.views_count),
+        // ...add other fields as needed
       };
-      const updated = await updateProfile(payload);
+
+      avatar: avatarChanged ? toArray(profile.avatar) : [],
+avatar_original: coverPhotoChanged ? toArray(profile.avatar_original) : [],
+
+
+      let updated;
+      if (isEditMode) {
+        updated = await updateProfile(payload);
+        router.push("/my-profiles");
+      } else {
+        updated = await createProfile(payload);
+        router.push("/my-profiles"); // or wherever you want to go after creation
+      }
       useProfileStore.getState().setActiveProfile(updated);
+      setAvatarChanged(false);
+      setCoverPhotoChanged(false);
     } catch (err: any) {
       setError(err.message);
     } finally {
       setSaving(false);
     }
   };
-
-  console.log(profile);
-
   return (
     <>
       <div>

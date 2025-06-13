@@ -4,7 +4,7 @@ import { UserProfile } from "@/types/userProfile-type";
 
 type ProfileStore = {
   activeProfile: UserProfile | null;
-  setActiveProfile: (profile: UserProfile) => void;
+  setActiveProfile: (profile: UserProfile | null) => void;
   clearActiveProfile: () => void;
   hydrated: boolean;
   setHydrated: () => void;

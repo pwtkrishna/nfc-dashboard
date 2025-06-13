@@ -1,4 +1,6 @@
-import { UserProfile } from "@/types/userProfile-type";
+"use client";
+
+import type { UserProfile } from "@/types/userProfile-type";
 import Image from "next/image";
 import Button from "../ui/Buttons";
 import Link from "next/link";
@@ -48,32 +50,36 @@ const ProfileListCard = ({ profile, mutate }: Props) => {
       onClick={() => handleProfileSelect(profile)}
     >
       <div
-        className={`flex flex-col gap-4 pt-4 px-4 pb-3  rounded-[0.5rem] overflow-hidden cursor-pointer [box-shadow:0_0_5px_rgb(196,196,196)] hover:[box-shadow:0_0_5px_rgb(0,168,204)] ${
+        className={`flex flex-col gap-4 pt-4 px-4 pb-3 rounded-[0.5rem] overflow-hidden cursor-pointer [box-shadow:0_0_5px_rgb(196,196,196)] hover:[box-shadow:0_0_5px_rgb(0,168,204)] ${
           isActive ? "bg-[#191724]" : "bg-white"
         }`}
       >
-        <div>
+        {/* Banner image with fixed aspect ratio */}
+        <div className="relative w-full h-[116px]">
           <Image
             src={avatar_original || "/profile-card.jpeg"}
             alt={username}
-            width={96} // 24 * 4 = 96px
-            height={96}
-            className="w-full h-full object-cover rounded-[0.5rem]"
+            fill
+            sizes="(max-width: 768px) 100vw, 300px"
+            className="object-cover rounded-[0.5rem]"
+            priority
           />
         </div>
-        <div className="flex items-center gap-4 w-full h-[70px] ">
-          <div className="min-w-12 min-h-12 rounded-[50%] border border-[#e0e0e0] overflow-hidden">
+        <div className="flex items-center gap-4 w-full h-[70px]">
+          {/* Profile avatar with fixed dimensions */}
+          <div className="relative flex-shrink-0 w-12 h-12 rounded-full border border-[#e0e0e0] overflow-hidden">
             <Image
               src={avatar || "/icTapOnnLogo.svg"}
               alt={name}
-              width={48}
-              height={48}
-              className="w-full h-full object-cover rounded-full"
+              fill
+              sizes="48px"
+              className="object-cover rounded-full"
+              style={{ objectPosition: "center" }}
             />
           </div>
           <div>
             <h6
-              className={`user-profile-name text-base leading-[1.6]  font-semibold ${
+              className={`user-profile-name text-base leading-[1.6] font-semibold ${
                 isActive ? "text-[#00a8cc]" : "text-[#191724]"
               }`}
             >
@@ -89,10 +95,10 @@ const ProfileListCard = ({ profile, mutate }: Props) => {
           </div>
         </div>
         <hr
-          className=" border-[#0000001f]"
+          className="border-[#0000001f]"
           style={{ borderBottomWidth: "thin" }}
         />
-        <div className="flex justify-between ">
+        <div className="flex justify-between">
           <Link href={`https://nfc-ecru.vercel.app/profile/${username}`}>
             <Button
               variant="none"
@@ -114,7 +120,7 @@ const ProfileListCard = ({ profile, mutate }: Props) => {
           </Link>
 
           <NextLink
-            href={`profile/${username}`}
+            href={`/profile`}
             variant="none"
             className="text-[rgb(0,168,204)] hover:bg-[rgba(0,168,204,0.04)] p-2 rounded-[50%]"
             toolTip="Edit Profile"

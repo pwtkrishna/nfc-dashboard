@@ -46,6 +46,6 @@ export const tabs: { key: Tab; label: ReactNode }[] = [
   },
   {
     key: "other",
-    label: "fjksdh", // Replace with icon or text as needed
+    label: "fjksdh",
   },
 ];

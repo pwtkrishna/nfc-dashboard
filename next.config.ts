@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "nfc.premierwebtechservices.com",
+        pathname: "/storage/**",
+      },
+      {
+        protocol: "https",
         hostname: "johndoe.com",
         // pathname: "/**", // Optional: allows all paths
       },

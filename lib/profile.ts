@@ -1,9 +1,19 @@
+import { useProfileStore } from "@/store/profile.store";
 import { UserProfile } from "@/types/userProfile-type";
 
 export async function getUserProfiles() {
   const res = await fetch("/api/profile", {
     method: "GET",
   });
+  if (res.status === 401) {
+    useProfileStore.getState().setActiveProfile(null);
+    alert(
+      "Your session has expired or our system was updated. Please log in again."
+    );
+    await fetch("/api/logout", { method: "POST" });
+
+    return;
+  }
   if (!res.ok) throw new Error("Failed to fetch user profiles");
   return res.json();
 }
@@ -14,6 +24,15 @@ export async function createProfile(profileData: UserProfile) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(profileData),
   });
+  if (res.status === 401) {
+    useProfileStore.getState().setActiveProfile(null);
+    alert(
+      "Your session has expired or our system was updated. Please log in again."
+    );
+    await fetch("/api/logout", { method: "POST" });
+
+    return;
+  }
   if (!res.ok) throw new Error("Failed to create user profile");
   return res.json();
 }
@@ -31,6 +50,15 @@ export async function updateProfile(profileData: UserProfile) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(profileToSend),
   });
+  if (res.status === 401) {
+    useProfileStore.getState().setActiveProfile(null);
+    alert(
+      "Your session has expired or our system was updated. Please log in again."
+    );
+    await fetch("/api/logout", { method: "POST" });
+
+    return;
+  }
   if (!res.ok) throw new Error("Failed to update user profile");
   return res.json();
 }
@@ -41,6 +69,15 @@ export async function deleteProfile(id: number) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ id: id }),
   });
+  if (res.status === 401) {
+    useProfileStore.getState().setActiveProfile(null);
+    alert(
+      "Your session has expired or our system was updated. Please log in again."
+    );
+    await fetch("/api/logout", { method: "POST" });
+
+    return;
+  }
 
   return res.json();
 }

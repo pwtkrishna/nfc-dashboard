@@ -24,21 +24,15 @@ const ProfileAvatar = ({ onAvatarChange, profile }: ProfileAvatarProps) => {
   };
 
   return (
-    <div className="flex items-center text-center justify-between flex-col gap-4">
-      <div
-        className="flex items-center justify-center relative bg-[#e0e0e0]   border-2 border-[rgb(206,212,218)] rounded-[50%] hover:border-[#007da4] w-[130px] h-[130px] transition-[border-color]
-duration-250
-[ease-[cubic-bezier(0.4,0,0.2,1)]]
-"
-      >
-        <Label className="cursor-pointer">
+    <div className="flex items-center text-center justify-end flex-col gap-4">
+      <div className="flex items-center justify-center relative bg-[#e0e0e0]   border-2 border-[rgb(206,212,218)] rounded-[50%] hover:border-[#007da4] w-[130px] h-[130px] transition-[border-color] duration-250 [ease-[cubic-bezier(0.4,0,0.2,1)]] overflow-hidden">
+        <Label className="cursor-pointer w-[130px] h-[130px] inline-block ">
           {profile?.avatar ? (
             <Image
               src={profile?.avatar}
               alt={profile?.username}
-              width={100}
-              height={100}
-              className="w-full h-full text-center object-cover rounded-[50%]"
+              fill
+              className="object-cover"
             />
           ) : (
             <div className="text-white flex items-center justify-center py-6">
@@ -65,7 +59,7 @@ duration-250
           <Button
             type="button"
             variant="none"
-            className="inline-flex items-center cursor-pointer text-[rgba(0,0,0,0.54)] text-lg absolute -top-1.5 -right-1.5 bg-white w-8 h-8 rounded-[50%] p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.1) ] transition-colors duration-150 ease-in-out z-50"
+            className="inline-flex items-center cursor-pointer text-[rgba(0,0,0,0.54)] text-lg absolute top-1/2 left-1/2 -translate-1/2 bg-white w-8 h-8 rounded-[50%] p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.1) ] transition-colors duration-150 ease-in-out z-50"
             onClick={handleEditClick}
           >
             <svg

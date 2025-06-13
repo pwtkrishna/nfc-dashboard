@@ -5,16 +5,19 @@ export async function POST(req: NextRequest) {
   try {
     const { email, password, user_type, login_type } = await req.json();
 
-    const res = await fetch("https://nfc.aardana.com/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: email,
-        password,
-        user_type,
-        login_type,
-      }),
-    });
+    const res = await fetch(
+      "https://nfc.premierwebtechservices.com/api/login",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: email,
+          password,
+          user_type,
+          login_type,
+        }),
+      }
+    );
 
     const data = await res.json();
 

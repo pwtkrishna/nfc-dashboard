@@ -5,7 +5,7 @@ import Input from "../ui/Input";
 import Button from "../ui/Buttons";
 import { useRef } from "react";
 
-type ProfileAvatarProps = {
+type ProfileCoverPhotoProps = {
   profile: UserProfile | null;
   onCoverPhotoChange: (file: File) => void;
 };
@@ -13,7 +13,7 @@ type ProfileAvatarProps = {
 const ProfileCoverPhoto = ({
   profile,
   onCoverPhotoChange,
-}: ProfileAvatarProps) => {
+}: ProfileCoverPhotoProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,8 +34,7 @@ const ProfileCoverPhoto = ({
             <Image
               src={profile?.avatar_original}
               alt={profile?.username}
-              width={100}
-              height={100}
+              fill
               className="w-full h-full text-center object-cover rounded-2xl"
             />
           ) : (
@@ -63,7 +62,7 @@ const ProfileCoverPhoto = ({
           <Button
             type="button"
             variant="none"
-            className="inline-flex items-center cursor-pointer text-[rgba(0,0,0,0.54)] text-lg absolute -top-1.5 -right-1.5 bg-white w-8 h-8 rounded-[50%] p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.1) ] transition-colors duration-150 ease-in-out z-50"
+            className="inline-flex items-center cursor-pointer text-[rgba(0,0,0,0.54)] text-lg absolute top-1/2 left-1/2 -translate-1/2 bg-white w-8 h-8 rounded-[50%] p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.1) ] transition-colors duration-150 ease-in-out z-50"
             onClick={handleEditClick}
           >
             <svg

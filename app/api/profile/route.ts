@@ -8,15 +8,23 @@ export async function GET() {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
   }
 
-  const res = await fetch("https://nfc.aardana.com/api/get-user-details", {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  const res = await fetch(
+    "https://nfc.premierwebtechservices.com/api/get-user-details",
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   const data = await res.json();
+
+  if (res.status === 401) {
+    // Only return the response, do NOT use alert or Zustand here
+    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  }
 
   if (!res.ok) {
     return NextResponse.json(
@@ -37,14 +45,17 @@ export async function POST(req: Request) {
 
   const profile = await req.json();
 
-  const res = await fetch("https://nfc.aardana.com/api/user-profiles", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(profile),
-  });
+  const res = await fetch(
+    "https://nfc.premierwebtechservices.com/api/user-profiles",
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(profile),
+    }
+  );
 
   const data = await res.json();
 
@@ -57,6 +68,7 @@ export async function POST(req: Request) {
 
   return NextResponse.json(data);
 }
+
 export async function DELETE(request: Request) {
   const token = (await cookies()).get("token")?.value;
 
@@ -74,13 +86,16 @@ export async function DELETE(request: Request) {
     );
   }
 
-  const res = await fetch(`https://nfc.aardana.com/api/user-profiles/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  const res = await fetch(
+    `https://nfc.premierwebtechservices.com/api/user-profiles/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   const data = await res.json();
 

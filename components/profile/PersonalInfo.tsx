@@ -5,7 +5,7 @@ import Label from "../ui/Label";
 import Textarea from "../ui/Textarea";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
-type FieldKey = "name" | "companyName" | "jobTitle" | "username" | "about";
+type FieldKey = "name" | "company_name" | "job_title" | "username" | "about";
 
 type PersonalInfoType = {
   children: ReactNode;
@@ -16,8 +16,8 @@ type PersonalInfoType = {
 
 const fields: { key: FieldKey; label: string }[] = [
   { key: "name", label: "Name" },
-  { key: "companyName", label: "Company Name" },
-  { key: "jobTitle", label: "Job Title" },
+  { key: "company_name", label: "Company Name" },
+  { key: "job_title", label: "Job Title" },
   { key: "username", label: "Username" },
   { key: "about", label: "About" },
 ];
@@ -26,21 +26,19 @@ const PersonalInfo = ({ children, profile, setProfile }: PersonalInfoType) => {
   const [open, setOpen] = useState(false);
   const [focus, setFocus] = useState<Record<FieldKey, boolean>>({
     name: false,
-    companyName: false,
+    company_name: false,
     username: false,
-    jobTitle: false,
+    job_title: false,
     about: false,
   });
 
   const values = {
     name: profile?.name || "",
-    companyName: profile?.company_name || "",
-    jobTitle: profile?.job_title || "",
+    company_name: profile?.company_name || "",
+    job_title: profile?.job_title || "",
     username: profile?.username || "",
     about: profile?.about || "",
   };
-
-  console.log(values);
 
   const handleChange =
     (field: string) => (e: { target: { value: unknown } }) => {
@@ -117,11 +115,6 @@ const PersonalInfo = ({ children, profile, setProfile }: PersonalInfoType) => {
                           onTouchStart={() => setOpen(true)}
                           onTouchEnd={() => setOpen(false)}
                         >
-                          {/* <Button
-                            type="button"
-                            className="inline-flex items-center justify-center cursor-pointer text-center text-lg text-[rgba(0,0,0,0.54)] p-2 rounded-[50%]"
-                            variant="none"
-                          > */}
                           <svg
                             className="w-6 h-6 inline-block text-[rgba(0,0,0,0.54)] cursor-pointer "
                             focusable="false"
@@ -132,7 +125,6 @@ const PersonalInfo = ({ children, profile, setProfile }: PersonalInfoType) => {
                           >
                             <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"></path>
                           </svg>
-                          {/* </Button> */}
                         </TooltipTrigger>
                         <TooltipContent>
                           <p className="text-white  rounded-lg font-medium text-base py-3 px-4 max-w-[300px]">
