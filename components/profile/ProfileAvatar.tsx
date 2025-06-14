@@ -4,6 +4,7 @@ import { UserProfile } from "@/types/userProfile-type";
 import Input from "../ui/Input";
 import Button from "../ui/Buttons";
 import { useRef } from "react";
+import { getAvatarSrc } from "@/utils/getAvatarSrc";
 
 type ProfileAvatarProps = {
   onAvatarChange: (file: File) => void;
@@ -12,6 +13,12 @@ type ProfileAvatarProps = {
 
 const ProfileAvatar = ({ onAvatarChange, profile }: ProfileAvatarProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const avatarSrc = getAvatarSrc(profile?.avatar);
+  const avatarAlt =
+    profile?.username && profile.username.length > 0
+      ? profile.username[0]
+      : "Profile";
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -25,13 +32,14 @@ const ProfileAvatar = ({ onAvatarChange, profile }: ProfileAvatarProps) => {
 
   return (
     <div className="flex items-center text-center justify-end flex-col gap-4">
-      <div className="flex items-center justify-center relative bg-[#e0e0e0]   border-2 border-[rgb(206,212,218)] rounded-[50%] hover:border-[#007da4] w-[130px] h-[130px] transition-[border-color] duration-250 [ease-[cubic-bezier(0.4,0,0.2,1)]] overflow-hidden">
+      <div className="flex items-center justify-center relative bg-[#e0e0e0] border-2 border-[rgb(206,212,218)] rounded-[50%] hover:border-[#007da4] w-[130px] h-[130px] transition-[border-color] duration-250 [ease-[cubic-bezier(0.4,0,0.2,1)]] overflow-hidden">
         <Label className="cursor-pointer w-[130px] h-[130px] inline-block ">
           {profile?.avatar ? (
             <Image
-              src={profile?.avatar}
-              alt={profile?.username}
+              src={avatarSrc}
+              alt={avatarAlt}
               fill
+              priority
               className="object-cover"
             />
           ) : (

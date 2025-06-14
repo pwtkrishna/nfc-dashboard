@@ -7,6 +7,7 @@ import Link from "next/link";
 import { deleteProfile } from "@/lib/profile";
 import NextLink from "../ui/NextLink";
 import { useProfileStore } from "@/store/profile.store";
+import { getAvatarSrc } from "@/utils/getAvatarSrc";
 
 type Props = {
   profile: UserProfile;
@@ -14,17 +15,16 @@ type Props = {
 };
 
 const ProfileListCard = ({ profile, mutate }: Props) => {
-  const {
-    id,
-    name,
-    username,
-    avatar,
-    avatar_original,
-    company_name,
-    job_title,
-  } = profile;
+  const { id, name, username, company_name, job_title } = profile;
   const activeProfile = useProfileStore((state) => state.activeProfile);
   const setActiveProfile = useProfileStore((state) => state.setActiveProfile);
+
+  const avatarSrc = getAvatarSrc(profile?.avatar);
+  const coverPhotoSrc = getAvatarSrc(profile?.avatar_original);
+  const imageAlt =
+    profile?.username && profile.username.length > 0
+      ? profile.username[0]
+      : "Profile";
 
   const isActive = activeProfile?.id === profile.id;
 
@@ -57,8 +57,8 @@ const ProfileListCard = ({ profile, mutate }: Props) => {
         {/* Banner image with fixed aspect ratio */}
         <div className="relative w-full h-[116px]">
           <Image
-            src={avatar_original || "/profile-card.jpeg"}
-            alt={username}
+            src={coverPhotoSrc}
+            alt={imageAlt}
             fill
             sizes="(max-width: 768px) 100vw, 300px"
             className="object-cover rounded-[0.5rem]"
@@ -69,8 +69,8 @@ const ProfileListCard = ({ profile, mutate }: Props) => {
           {/* Profile avatar with fixed dimensions */}
           <div className="relative flex-shrink-0 w-12 h-12 rounded-full border border-[#e0e0e0] overflow-hidden">
             <Image
-              src={avatar || "/icTapOnnLogo.svg"}
-              alt={name}
+              src={avatarSrc}
+              alt={imageAlt}
               fill
               sizes="48px"
               className="object-cover rounded-full"

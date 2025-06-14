@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function toArray(val: any) {
+export function toArray<T>(val: T | T[] | null | undefined): T[] {
   if (val == null) return [];
   return Array.isArray(val) ? val : [val];
 }

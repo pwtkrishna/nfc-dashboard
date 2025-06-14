@@ -4,6 +4,7 @@ import { UserProfile } from "@/types/userProfile-type";
 import Input from "../ui/Input";
 import Button from "../ui/Buttons";
 import { useRef } from "react";
+import { getAvatarSrc } from "@/utils/getAvatarSrc";
 
 type ProfileCoverPhotoProps = {
   profile: UserProfile | null;
@@ -15,6 +16,12 @@ const ProfileCoverPhoto = ({
   onCoverPhotoChange,
 }: ProfileCoverPhotoProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const coverPhotoSrc = getAvatarSrc(profile?.avatar_original);
+  const coverPhotoAlt =
+    profile?.username && profile.username.length > 0
+      ? profile.username[0]
+      : "Profile";
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -32,9 +39,10 @@ const ProfileCoverPhoto = ({
         <Label className="cursor-pointer h-full w-full">
           {profile?.avatar_original ? (
             <Image
-              src={profile?.avatar_original}
-              alt={profile?.username}
+              src={coverPhotoSrc}
+              alt={coverPhotoAlt}
               fill
+              priority
               className="w-full h-full text-center object-cover rounded-2xl"
             />
           ) : (

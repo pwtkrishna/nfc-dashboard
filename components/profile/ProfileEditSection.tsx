@@ -43,7 +43,7 @@ const ProfileEditSection = ({
         </PersonalInfo>
       );
     case "links":
-      return <SocialLinks />;
+      return <SocialLinks profile={profile} />;
     case "other":
     //   return <EditOtherForm />;
     default:

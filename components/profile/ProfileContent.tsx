@@ -68,8 +68,8 @@ const ProfileContent = () => {
         username: toArray(profile.username),
         email: toArray(profile.email),
         about: toArray(profile.about),
-        avatar: toArray(avatarChanged ? avatar : ""),
-        avatar_original: toArray(coverPhotoChanged ? avatar_original : ""),
+        avatar: avatarChanged ? toArray(avatar) : [],
+        avatar_original: coverPhotoChanged ? toArray(avatar_original) : [],
         status: toArray(profile.status),
         company_name: toArray(profile.company_name),
         job_title: toArray(profile.job_title),
@@ -79,9 +79,6 @@ const ProfileContent = () => {
         views_count: toArray(profile.views_count),
         // ...add other fields as needed
       };
-
-      if (avatarChanged) payload.avatar = avatar;
-      if (coverPhotoChanged) payload.avatar_original = avatar_original;
 
       let updated;
       if (isEditMode) {
