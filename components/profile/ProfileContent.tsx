@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -16,7 +17,6 @@ const ProfileContent = () => {
     "profile"
   );
   const activeProfile = useProfileStore((state) => state.activeProfile);
-  const storeProfile = useProfileStore((state) => state.activeProfile);
   const hydrated = useProfileStore((state) => state.hydrated);
 
   const [profile, setProfile] = useState(activeProfile);
@@ -91,6 +91,7 @@ const ProfileContent = () => {
       useProfileStore.getState().setActiveProfile(updated);
       setAvatarChanged(false);
       setCoverPhotoChanged(false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     } finally {

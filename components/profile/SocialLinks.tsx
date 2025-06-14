@@ -2,7 +2,6 @@ import SocialLinksItem from "./SocialLinksItem";
 import LinkAdded from "./LinkAdded";
 import { getSocialLinks } from "@/utils/socialLinks";
 import { UserProfile } from "@/types/userProfile-type";
-import SocialLinkAddForm from "./SocialLinkAddForm";
 
 type SocialLinksType = {
   profile: UserProfile | null;
