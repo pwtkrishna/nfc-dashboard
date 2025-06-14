@@ -68,8 +68,8 @@ const ProfileListHeader = () => {
   const router = useRouter();
   return (
     <header>
-      <div className="flex items-center justify-between">
-        <PageHeader />
+      <div className="flex items-center justify-end">
+        {/* <PageHeader /> */}
         <div>
           <Button
             variant="filled"
