@@ -1,7 +1,7 @@
 "use client";
 
 import { useProfileStore } from "@/store/profile.store";
-import PageHeader from "../PageHeader";
+// import PageHeader from "../PageHeader";
 import Button from "../ui/Buttons";
 import { useRouter } from "next/navigation";
 import { UserProfile } from "@/types/userProfile-type";

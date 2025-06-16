@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -9,6 +8,9 @@ import { createProfile, updateProfile } from "@/lib/profile";
 import Button from "../ui/Buttons";
 import { useRouter } from "next/navigation";
 import { toArray } from "@/utils/toArray";
+import { socialTypes } from "./SocialLinksItem";
+import SocialLinkAddForm from "./SocialLinkAddForm";
+import { tabs } from "@/data/tabs";
 
 const ProfileContent = () => {
   const router = useRouter();
@@ -22,10 +24,77 @@ const ProfileContent = () => {
   const [profile, setProfile] = useState(activeProfile);
   const [avatarChanged, setAvatarChanged] = useState(false);
   const [coverPhotoChanged, setCoverPhotoChanged] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [saving, setSaving] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
 
+  const [showLinkForm, setShowLinkForm] = useState(false);
+  const [selectedSocial, setSelectedSocial] = useState<null | socialTypes>(
+    null
+  );
+  const [userLinks, setUserLinks] = useState<socialTypes[]>([]);
+
+  const currentTabIndex = tabs.findIndex((tab) => tab.key === selectedTab);
+
+  function handleNext() {
+    if (currentTabIndex < tabs.length - 1) {
+      setSelectedTab(tabs[currentTabIndex + 1].key as typeof selectedTab);
+    }
+  }
+
+  function handlePrevious() {
+    if (currentTabIndex > 0) {
+      setSelectedTab(tabs[currentTabIndex - 1].key as typeof selectedTab);
+    }
+  }
+
+  function handleShowLinkForm(social: socialTypes) {
+    setSelectedSocial(social);
+    setShowLinkForm(true);
+  }
+
+  function handleCloseLinkForm() {
+    setShowLinkForm(false);
+  }
+
+  function handleSaveLink(url: string) {
+    if (selectedSocial) {
+      setUserLinks((prev) => [
+        ...prev.filter((link) => link.name !== selectedSocial.name),
+        { ...selectedSocial, url: [url] },
+      ]);
+      setShowLinkForm(false);
+      setSelectedSocial(null);
+    }
+  }
+
   const isEditMode = Boolean(profile?.id);
+
+  const socialFieldMap = {
+    LinkedIn: "linkedin_url",
+    Instagram: "instagram_url",
+    Facebook: "facebook_url",
+    Twitter: "twitter_url",
+    YouTube: "youtube_url",
+    Snapchat: "snapchat_url",
+    "Tik Tok": "tiktok_url",
+    Behance: "behance_url",
+    Dribble: "dribbble_url",
+    Pinterest: "pinterest_url",
+    Threads: "threads_url",
+    // ...add others as needed
+  } as const;
+
+  type SocialName = keyof typeof socialFieldMap;
+
+  const socialUpdates: Record<string, string[]> = {};
+  userLinks.forEach((link) => {
+    const field = socialFieldMap[link.name as SocialName];
+    if (field) {
+      socialUpdates[field] = link.url && link.url[0] ? [link.url[0]] : [""];
+    }
+  });
 
   useEffect(() => {
     if (hydrated) {
@@ -62,6 +131,7 @@ const ProfileContent = () => {
     setError(null);
     try {
       const { avatar, avatar_original, ...rest } = profile;
+
       const payload = {
         ...rest,
         name: toArray(profile.name),
@@ -73,11 +143,33 @@ const ProfileContent = () => {
         status: toArray(profile.status),
         company_name: toArray(profile.company_name),
         job_title: toArray(profile.job_title),
-        is_public: toArray(profile.is_public),
-        allow_contact_form: toArray(profile.allow_contact_form),
-        dark_mode_enabled: toArray(profile.dark_mode_enabled),
-        views_count: toArray(profile.views_count),
-        // ...add other fields as needed
+        // is_public: toArray(profile.is_public),
+        // allow_contact_form: toArray(profile.allow_contact_form),
+        // dark_mode_enabled: toArray(profile.dark_mode_enabled),
+        // views_count: toArray(profile.views_count),
+        email_verified_at: [
+          !profile.email_verified_at?.[0] ||
+          profile.email_verified_at?.[0] === "null"
+            ? ""
+            : profile.email_verified_at[0],
+        ],
+        user_type: [
+          !profile.user_type?.[0] || profile.user_type?.[0] === "null"
+            ? ""
+            : profile.user_type[0],
+        ],
+        last_tapped_at: [
+          !profile.last_tapped_at?.[0] || profile.last_tapped_at?.[0] === "null"
+            ? ""
+            : profile.last_tapped_at[0],
+        ],
+        whatsapp_number: [
+          !profile.whatsapp_number?.[0] ||
+          profile.whatsapp_number?.[0] === "null"
+            ? ""
+            : profile.whatsapp_number[0],
+        ],
+        ...socialUpdates,
       };
 
       let updated;
@@ -114,18 +206,50 @@ const ProfileContent = () => {
             borderRadius: "0px 12px 12px",
           }}
         >
-          <div className="flex-[1] h-full overflow-y-auto ">
+          <div className="flex-[1] h-full overflow-y-auto">
             {activeProfile && (
               <form action="" onSubmit={handleSave}>
                 <ProfileEditSection
+                  selectedTab={selectedTab}
                   activeProfile={activeProfile}
                   profile={profile}
-                  selectedTab={selectedTab}
                   setProfile={setProfile}
                   onAvatarChange={handleAvatarChange}
                   onCoverPhotoChange={handleCoverPhotoChange}
+                  userLinks={userLinks}
+                  showLinkForm={showLinkForm}
+                  selectedSocial={selectedSocial}
+                  handleShowLinkForm={handleShowLinkForm}
+                  handleCloseLinkForm={handleCloseLinkForm}
+                  handleSaveLink={handleSaveLink}
                 />
-                <Button>Save</Button>
+                <div className="flex justify-between mt-8 p-4">
+                  <Button
+                    type="button"
+                    onClick={handlePrevious}
+                    disabled={currentTabIndex === 0}
+                    className="mr-2 cursor-pointer"
+                  >
+                    Previous
+                  </Button>
+                  {currentTabIndex < tabs.length - 1 ? (
+                    <Button
+                      type="button"
+                      className=" cursor-pointer"
+                      onClick={handleNext}
+                    >
+                      Next
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      className=" cursor-pointer"
+                      disabled={saving}
+                    >
+                      Save
+                    </Button>
+                  )}
+                </div>
               </form>
             )}
           </div>
@@ -139,6 +263,12 @@ const ProfileContent = () => {
           </div>
         </div>
       </div>
+      <SocialLinkAddForm
+        showLinkForm={showLinkForm}
+        handleCloseLinkForm={handleCloseLinkForm}
+        social={selectedSocial}
+        onSave={handleSaveLink}
+      />
     </>
   );
 };

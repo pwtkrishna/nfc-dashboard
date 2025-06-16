@@ -3,14 +3,14 @@ export type UserProfile = {
   name: string[];
   username: string[];
   email: string[];
-  email_verified_at: string[] | null;
+  email_verified_at: string[];
   phone: string[];
-  whatsapp_number: string[] | null;
+  whatsapp_number: string[];
   avatar: string[];
   avatar_base64: string[];
   avatar_original_base64: string[];
   avatar_original: string[] | null;
-  user_type: string[] | null;
+  user_type: string[];
   about: string[];
   status: boolean[];
   state: string[];
@@ -52,7 +52,7 @@ export type UserProfile = {
   seo_description: string[];
   nfc_card_id: string[];
   views_count: number[];
-  last_tapped_at: string[] | null;
+  last_tapped_at: string[];
   created_at: string[];
   updated_at: string[];
 };

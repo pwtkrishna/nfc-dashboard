@@ -5,24 +5,39 @@ import { Dispatch, SetStateAction } from "react";
 import ProfileAvatar from "./ProfileAvatar";
 import ProfileCoverPhoto from "./ProfileCoverPhoto";
 import SocialLinks from "./SocialLinks";
+import { socialTypes } from "./SocialLinksItem";
+import OtherDetails from "./OtherDetails";
 
 type ProfileEditSectionType = {
   selectedTab: Tab;
   activeProfile: UserProfile | null;
-  setProfile: Dispatch<SetStateAction<UserProfile | null>>;
-  setCoverPhoto?: Dispatch<SetStateAction<UserProfile | null>>;
-  onAvatarChange: (file: File) => void;
-  onCoverPhotoChange: (file: File) => void;
   profile: UserProfile | null;
+  userLinks: socialTypes[];
+  showLinkForm: boolean;
+  selectedSocial: socialTypes | null;
+  setProfile: Dispatch<SetStateAction<UserProfile | null>>;
+  onAvatarChange: (file: File) => void;
+  setCoverPhoto?: Dispatch<SetStateAction<UserProfile | null>>;
+  onCoverPhotoChange: (file: File) => void;
+  handleShowLinkForm: (social: socialTypes) => void;
+  handleCloseLinkForm: () => void;
+  handleSaveLink: (url: string) => void;
 };
 
 const ProfileEditSection = ({
   selectedTab,
   activeProfile,
+  profile,
+  userLinks,
+  showLinkForm,
+  selectedSocial,
+  setProfile,
   onAvatarChange,
   onCoverPhotoChange,
-  profile,
-  setProfile,
+
+  handleShowLinkForm,
+  handleCloseLinkForm,
+  handleSaveLink,
 }: ProfileEditSectionType) => {
   switch (selectedTab) {
     case "profile":
@@ -43,9 +58,25 @@ const ProfileEditSection = ({
         </PersonalInfo>
       );
     case "links":
-      return <SocialLinks profile={profile} />;
+      return (
+        <SocialLinks
+          profile={profile}
+          userLinks={userLinks}
+          showLinkForm={showLinkForm}
+          selectedSocial={selectedSocial}
+          handleShowLinkForm={handleShowLinkForm}
+          handleCloseLinkForm={handleCloseLinkForm}
+          handleSaveLink={handleSaveLink}
+        />
+      );
     case "other":
-    //   return <EditOtherForm />;
+      return (
+        <OtherDetails
+          profile={profile}
+          setProfile={setProfile}
+          activeProfile={activeProfile}
+        />
+      );
     default:
       return null;
   }

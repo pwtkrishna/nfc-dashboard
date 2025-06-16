@@ -5,8 +5,10 @@ import Link from "next/link";
 import Logo from "./ui/Logo";
 import { useProfileStore } from "@/store/profile.store";
 import { sideBarLinks } from "@/constants/sidebar-links";
+import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const activeProfile = useProfileStore((state) => state.activeProfile);
   const hydrated = useProfileStore((state) => state.hydrated);
@@ -22,11 +24,15 @@ const Sidebar = () => {
       <div className="flex m-6 items-center justify-center">
         <Logo />
       </div>
-      <ul>
+      <ul className="flex flex-col gap-4">
         {filteredLinks.map((item, index) => (
           <li key={index}>
             <Link href={item.href}>
-              <div className="flex items-center gap-2 px-4 py-2">
+              <div
+                className={`flex items-center gap-2 px-4 py-2 rounded-[8px] ${
+                  pathname === item.href ? "bg-[rgb(14,116,144)]" : ""
+                } ${pathname !== item.href ? "hover:bg-[#0e74901a]" : ""}`}
+              >
                 <div className="min-w-14 text-white shrink-0 inline-flex">
                   {typeof item.icon === "string" ? (
                     <span>{item.icon}</span>

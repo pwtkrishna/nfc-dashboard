@@ -5,7 +5,13 @@ import Label from "../ui/Label";
 import Textarea from "../ui/Textarea";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
-type FieldKey = "name" | "company_name" | "job_title" | "username" | "about";
+type FieldKey =
+  | "name"
+  | "email"
+  | "company_name"
+  | "job_title"
+  | "username"
+  | "about";
 
 type PersonalInfoType = {
   children: ReactNode;
@@ -16,6 +22,7 @@ type PersonalInfoType = {
 
 const fields: { key: FieldKey; label: string }[] = [
   { key: "name", label: "Name" },
+  { key: "email", label: "Email" },
   { key: "company_name", label: "Company Name" },
   { key: "job_title", label: "Job Title" },
   { key: "username", label: "Username" },
@@ -26,6 +33,7 @@ const PersonalInfo = ({ children, profile, setProfile }: PersonalInfoType) => {
   const [open, setOpen] = useState(false);
   const [focus, setFocus] = useState<Record<FieldKey, boolean>>({
     name: false,
+    email: false,
     company_name: false,
     username: false,
     job_title: false,
@@ -34,6 +42,7 @@ const PersonalInfo = ({ children, profile, setProfile }: PersonalInfoType) => {
 
   const values = {
     name: profile?.name || "",
+    email: profile?.email || "",
     company_name: profile?.company_name || "",
     job_title: profile?.job_title || "",
     username: profile?.username || "",
