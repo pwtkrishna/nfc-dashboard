@@ -32,7 +32,7 @@ const ProfileListCard = ({ profile, mutate }: Props) => {
     if (window.confirm("Are you sure you want to delete this profile?")) {
       try {
         await deleteProfile(id);
-        mutate?.(); // Refresh the profile list after deletion
+        mutate?.();
       } catch (error) {
         console.error("Failed to delete profile:", error);
         alert("Failed to delete profile. Please try again.");
@@ -46,7 +46,7 @@ const ProfileListCard = ({ profile, mutate }: Props) => {
 
   return (
     <div
-      className="pl-6 pt-6 basis-[25%] grow-0 max-w-1/4 max-lg:basis-[33.3333%] max-lg:max-w-1/3 max-sm:basis-[50%] max-sm:max-w-1/2"
+      className="profile-card-full-w pl-6 pt-6 basis-[25%] grow-0 max-w-1/4 max-lg:basis-[33.3333%] max-lg:max-w-1/3 max-sm:basis-[50%] max-sm:max-w-1/2"
       onClick={() => handleProfileSelect(profile)}
     >
       <div
@@ -54,7 +54,6 @@ const ProfileListCard = ({ profile, mutate }: Props) => {
           isActive ? "bg-[#191724]" : "bg-white"
         }`}
       >
-        {/* Banner image with fixed aspect ratio */}
         <div className="relative w-full h-[116px]">
           <Image
             src={coverPhotoSrc}
@@ -66,7 +65,6 @@ const ProfileListCard = ({ profile, mutate }: Props) => {
           />
         </div>
         <div className="flex items-center gap-4 w-full h-[70px]">
-          {/* Profile avatar with fixed dimensions */}
           <div className="relative flex-shrink-0 w-12 h-12 rounded-full border border-[#e0e0e0] overflow-hidden">
             <Image
               src={avatarSrc}
@@ -106,8 +104,9 @@ const ProfileListCard = ({ profile, mutate }: Props) => {
               toolTip="Preview Profile"
             >
               <svg
-                className={`w-6 h-6 transition-[fill] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]
- cursor-pointer ${isActive ? "hover:text-white" : "hover:text-black"} `}
+                className={`w-6 h-6 transition-[fill] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] cursor-pointer ${
+                  isActive ? "hover:text-white" : "hover:text-black"
+                } `}
                 focusable="false"
                 aria-hidden="true"
                 viewBox="0 0 24 24"
@@ -126,10 +125,9 @@ const ProfileListCard = ({ profile, mutate }: Props) => {
             toolTip="Edit Profile"
           >
             <svg
-              className={`w-6 h-6 transition-[fill] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]
- cursor-pointer hover:text-black ${
-   isActive ? "hover:text-white" : "hover:text-black"
- }`}
+              className={`w-6 h-6 transition-[fill] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] cursor-pointer hover:text-black ${
+                isActive ? "hover:text-white" : "hover:text-black"
+              }`}
               fill="currentColor"
               focusable="false"
               aria-hidden="true"
@@ -146,10 +144,9 @@ const ProfileListCard = ({ profile, mutate }: Props) => {
             toolTip="Edit Profile Links"
           >
             <svg
-              className={`w-6 h-6 transition-[fill] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]
- cursor-pointer hover:text-black ${
-   isActive ? "hover:text-white" : "hover:text-black"
- }`}
+              className={`w-6 h-6 transition-[fill] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] cursor-pointer hover:text-black ${
+                isActive ? "hover:text-white" : "hover:text-black"
+              }`}
               fill="currentColor"
               focusable="false"
               aria-hidden="true"
@@ -168,8 +165,7 @@ const ProfileListCard = ({ profile, mutate }: Props) => {
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 transition-[fill] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]
- cursor-pointer hover:text-black "
+                className="w-6 h-6 transition-[fill] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] cursor-pointer hover:text-black"
                 viewBox="0 0 18 18"
                 fill="none"
               >

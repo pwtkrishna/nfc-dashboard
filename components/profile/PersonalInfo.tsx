@@ -119,7 +119,6 @@ const PersonalInfo = ({ children, profile, setProfile }: PersonalInfoType) => {
                     >
                       <Tooltip open={open} onOpenChange={setOpen}>
                         <TooltipTrigger
-                          // asChild
                           onClick={() => setOpen((prev) => !prev)}
                           onTouchStart={() => setOpen(true)}
                           onTouchEnd={() => setOpen(false)}

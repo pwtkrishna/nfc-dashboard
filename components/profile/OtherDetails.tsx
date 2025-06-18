@@ -2,15 +2,9 @@ import { Dispatch, SetStateAction, useState } from "react";
 import Input from "../ui/Input";
 import { UserProfile } from "@/types/userProfile-type";
 import Label from "../ui/Label";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { X } from "lucide-react";
 
-type FieldKey =
-  | "city"
-  | "state"
-  | "country"
-  | "industry"
-  | "skills"
-  | "services";
+type FieldKey = "city" | "state" | "country" | "area" | "industry";
 
 type OtherDetailsType = {
   activeProfile: UserProfile | null;
@@ -22,33 +16,38 @@ const fields: { key: FieldKey; label: string }[] = [
   { key: "city", label: "City" },
   { key: "state", label: "State" },
   { key: "country", label: "Country" },
+  { key: "area", label: "Address" },
   { key: "industry", label: "Industry" },
-  { key: "skills", label: "Skills" },
-  { key: "services", label: "Services" },
 ];
 
-const OtherDetails = ({ profile, setProfile }: OtherDetailsType) => {
-  const [open, setOpen] = useState(false);
+const OtherDetails = ({
+  profile,
+
+  setProfile,
+}: OtherDetailsType) => {
   const [focus, setFocus] = useState<Record<FieldKey, boolean>>({
     city: false,
     state: false,
     country: false,
+    area: false,
     industry: false,
-    skills: false,
-    services: false,
   });
+  const [skillFocus, setSkillFocus] = useState(false);
+  const [serviceFocus, setServiceFocus] = useState(false);
+
+  const [skill, setSkill] = useState("");
+  const [service, setService] = useState("");
 
   const values = {
     city: profile?.city || "",
-    email: profile?.state || "",
+    state: profile?.state || "",
     country: profile?.country || "",
+    area: profile?.area || "",
     industry: profile?.industry || "",
-    skills: profile?.skills || "",
-    services: profile?.services || "",
   };
 
   const handleChange =
-    (field: string) => (e: { target: { value: unknown } }) => {
+    (field: FieldKey) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setProfile((prev) =>
         prev ? { ...prev, [field]: e.target.value } : prev
       );
@@ -60,6 +59,91 @@ const OtherDetails = ({ profile, setProfile }: OtherDetailsType) => {
 
   const handleBlur = (field: FieldKey) => () => {
     setFocus((prev) => ({ ...prev, [field]: false }));
+  };
+
+  function isNonEmpty(val: string | string[]) {
+    if (Array.isArray(val)) {
+      return val.some((v) => typeof v === "string" && v.trim().length > 0);
+    }
+    return typeof val === "string" && val.trim().length > 0;
+  }
+
+  function addSkill() {
+    const newSkill = skill.trim();
+    if (!newSkill) return;
+    if (newSkill) {
+      setProfile((prev) => {
+        if (!prev) return prev;
+        if (prev.skills.includes(newSkill)) return prev;
+        return {
+          ...prev,
+          skills: [...prev.skills, newSkill],
+        };
+      });
+    }
+  }
+
+  function addService() {
+    const newService = service.trim();
+    if (!newService) return;
+    if (newService) {
+      setProfile((prev) => {
+        if (!prev) return prev;
+        if (prev.services.includes(newService)) return prev;
+        return {
+          ...prev,
+          services: [...prev.services, newService],
+        };
+      });
+    }
+  }
+
+  function removeSkill(skillToRemove: string) {
+    setProfile((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        skills: prev.skills.filter((skill: string) => skill !== skillToRemove),
+      };
+    });
+  }
+
+  function removeService(serviceToRemove: string) {
+    setProfile((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        services: prev.services.filter(
+          (service: string) => service !== serviceToRemove
+        ),
+      };
+    });
+  }
+
+  const handleSkillChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setSkill(e.target.value);
+  };
+
+  const handleSkillFocus = () => {
+    setSkillFocus(true);
+  };
+
+  const handleSkillBlur = () => {
+    setSkillFocus(false);
+  };
+
+  const handleServiceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setService(e.target.value);
+  };
+
+  const handleServiceFocus = () => {
+    setServiceFocus(true);
+  };
+
+  const handleServiceBlur = () => {
+    setServiceFocus(false);
   };
 
   return (
@@ -74,64 +158,133 @@ const OtherDetails = ({ profile, setProfile }: OtherDetailsType) => {
         />
       </header>
       <div className="w-full">
-        <div className="flex flex-col justify-between mt-4 mb-6 gap-3.5">
+        <div className="flex flex-col justify-between mt-4 gap-3.5">
           {fields.map((field) => (
             <div className="w-full relative" key={field.key}>
               <Label
-                className="absolute left-3.5 pointer-events-none text-base font-normal transition-all duration-200 origin-left
-                  scale-90 -translate-y-3.5 translate-x-2 bg-white px-2 text-[#007da4]"
+                className={`
+                  absolute left-3.5 pointer-events-none text-base font-normal
+                  transition-all duration-200 origin-left
+                  ${
+                    focus[field.key] || isNonEmpty(values[field.key])
+                      ? "scale-90 -translate-y-3.5 translate-x-2 bg-white px-2 text-[#007da4]"
+                      : "scale-100 translate-y-4 text-[rgb(107,114,128)]"
+                  }
+                `}
                 style={{ maxWidth: "calc(100% - 24px)" }}
               >
                 {field.label}
               </Label>
 
-              <div className="username flex w-full py-4 px-3.5 text-base font-normal text-[#191724] border border-[#0000003b] rounded-lg  hover:border-[#191724] transition-colors duration-200">
-                <div className="flex items-center whitespace-nowrap text-[#0000008a] mr-2 max-h-8 ">
-                  <p className="text-base font-normal leading-[1.5] text-[#6b7280]">
-                    https://nfc-ecru.vercel.app/
-                  </p>
-                </div>
-                <Input
-                  value={values[field.key]}
-                  variant="none"
-                  className="username-input w-full block"
-                  onChange={handleChange(field.key)}
-                  onFocus={handleFocus(field.key)}
-                  onBlur={handleBlur(field.key)}
-                />
-                <div
-                  className="relative flex max-h-8 items-center whitespace-nowrap text-[#0000008a] ml-2 hover:bg-[#0000000a] rounded-[50%] p-[5px] pb-[7px]"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <Tooltip open={open} onOpenChange={setOpen}>
-                    <TooltipTrigger
-                      // asChild
-                      onClick={() => setOpen((prev) => !prev)}
-                      onTouchStart={() => setOpen(true)}
-                      onTouchEnd={() => setOpen(false)}
-                    >
-                      <svg
-                        className="w-6 h-6 inline-block text-[rgba(0,0,0,0.54)] cursor-pointer "
-                        focusable="false"
-                        aria-hidden="true"
-                        viewBox="0 0 24 24"
-                        data-testid="InfoOutlinedIcon"
-                        fill="rgba(0,0,0,0.54)"
-                      >
-                        <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"></path>
-                      </svg>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p className="text-white  rounded-lg font-medium text-base py-3 px-4 max-w-[300px]">
-                        Username is a unique URL that <br /> you can share with
-                        others to <br /> access your profile.
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-              </div>
+              <Input
+                value={values[field.key]}
+                variant="outline"
+                onChange={handleChange(field.key)}
+                onFocus={handleFocus(field.key)}
+                onBlur={handleBlur(field.key)}
+              />
             </div>
           ))}
+          <div className="w-full relative">
+            <div className="space-y-2">
+              {profile?.skills && profile?.skills?.length > 0 && (
+                <>
+                  <Label className="text-[#007da4] mb-2 inline-block">
+                    Skills
+                  </Label>
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {profile?.skills.map((skill: string, index: number) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[rgba(4,206,250,0.1)] text-[rgb(4,206,250)] border border-[rgba(4,206,250,0.3)]"
+                      >
+                        {skill}
+                        <button
+                          onClick={() => removeSkill(skill)}
+                          className="ml-2 hover:text-red-400"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                </>
+              )}
+              <Label
+                className={`
+                absolute left-3.5 pointer-events-none text-base font-normal
+                transition-all duration-200 origin-left
+                ${
+                  skillFocus || skill.trim().length > 0
+                    ? "scale-90 -translate-y-3.5 translate-x-2 bg-white px-2 text-[#007da4]"
+                    : "scale-100 translate-y-4 text-[rgb(107,114,128)]"
+                }
+              `}
+                style={{ maxWidth: "calc(100% - 24px)" }}
+              >
+                Skill
+              </Label>
+
+              <Input
+                value={skill}
+                variant="outline"
+                onChange={(e) => handleSkillChange(e)}
+                onFocus={handleSkillFocus}
+                onBlur={handleSkillBlur}
+                onKeyUp={(e) => e.key === "Enter" && addSkill()}
+              />
+            </div>
+          </div>
+          <div className="w-full relative">
+            <div className="space-y-2">
+              {profile?.services && profile?.services?.length > 0 && (
+                <>
+                  <Label className="text-[#007da4] mb-2 inline-block">
+                    Services
+                  </Label>
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {profile?.services.map((service: string, index: number) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[rgba(4,206,250,0.1)] text-[rgb(4,206,250)] border border-[rgba(4,206,250,0.3)]"
+                      >
+                        {service}
+                        <button
+                          onClick={() => removeService(service)}
+                          className="ml-2 hover:text-red-400"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                </>
+              )}
+              <Label
+                className={`
+                absolute left-3.5 pointer-events-none text-base font-normal
+                transition-all duration-200 origin-left
+                ${
+                  serviceFocus || service.trim().length > 0
+                    ? "scale-90 -translate-y-3.5 translate-x-2 bg-white px-2 text-[#007da4]"
+                    : "scale-100 translate-y-4 text-[rgb(107,114,128)]"
+                }
+              `}
+                style={{ maxWidth: "calc(100% - 24px)" }}
+              >
+                Services
+              </Label>
+
+              <Input
+                value={service}
+                variant="outline"
+                onChange={(e) => handleServiceChange(e)}
+                onFocus={handleServiceFocus}
+                onBlur={handleServiceBlur}
+                onKeyUp={(e) => e.key === "Enter" && addService()}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

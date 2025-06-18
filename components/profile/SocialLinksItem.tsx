@@ -28,8 +28,7 @@ const SocialLinksItem = ({
   return (
     <>
       <div
-        className="py-2 px-4 flex justify-between items-center bg-white cursor-pointer rounded-lg border border-[rgba(0,0,0,0.12)]"
-        style={{ width: "calc(33.3333% - 0.666667rem)" }}
+        className="social-link-item py-2 px-4 flex justify-between items-center bg-white cursor-pointer rounded-lg border border-[rgba(0,0,0,0.12)]"
         onClick={() => handleShowLinkForm(social)}
       >
         <div className="flex items-center gap-2 ">

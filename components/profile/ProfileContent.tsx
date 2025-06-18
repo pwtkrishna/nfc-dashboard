@@ -83,7 +83,6 @@ const ProfileContent = () => {
     Dribble: "dribbble_url",
     Pinterest: "pinterest_url",
     Threads: "threads_url",
-    // ...add others as needed
   } as const;
 
   type SocialName = keyof typeof socialFieldMap;

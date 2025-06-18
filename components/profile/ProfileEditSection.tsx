@@ -47,13 +47,13 @@ const ProfileEditSection = ({
           setProfile={setProfile}
           activeProfile={activeProfile}
         >
-          <div className="flex mt-4 mb-6 gap-8 max-md:flex-col">
+          <div className="flex mt-4 mb-6 gap-8 max-xl:flex-col">
             <ProfileAvatar profile={profile} onAvatarChange={onAvatarChange} />
             <ProfileCoverPhoto
               profile={profile}
               onCoverPhotoChange={onCoverPhotoChange}
             />
-            <div className="w-[130px] h-[130px]"></div>
+            <div className="w-[130px] h-[130px] max-xl:hidden"></div>
           </div>
         </PersonalInfo>
       );

@@ -13,9 +13,9 @@ export type UserProfile = {
   user_type: string[];
   about: string[];
   status: boolean[];
+  city: string[];
   state: string[];
   country: string[];
-  city: string[];
   area: string[];
   website_url: string[];
   headline: string[];

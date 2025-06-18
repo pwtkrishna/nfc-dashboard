@@ -86,7 +86,7 @@ const LoginForm = () => {
             required
             autoComplete="current-password"
             placeholder="Enter your password"
-            className="text-[#191724]  block w-full py-[16.5px] px-[14px] rounded-lg border-[#0000003b] border bg-white focus:border-[#3b82f680] focus:outline-[#3b82f680] focus:bg-white"
+            className="text-[#191724]  block w-full py-[16.5px] px-[14px] rounded-lg border-[#0000003b] border bg-white focus:border-[#3b82f680] focus:outline-[#3b82f680] focus:bg-white mb-4"
           />
 
           <Button type="submit" loading={loading} variant="login">

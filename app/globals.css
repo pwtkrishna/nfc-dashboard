@@ -20,6 +20,14 @@
   overflow: hidden;
 }
 
+@media (max-width: 568px) {
+  .profile-card-full-w {
+    width: 100%;
+    max-width: 100%;
+    flex-basis: 100%;
+  }
+}
+
 /* //////////////////////////////////// */
 /* ////// Profile Settings /////////// */
 /* ///////////////////////////////////*/
@@ -27,6 +35,22 @@
 .username:focus-within {
   border-color: #007da4;
   border-width: 2px;
+}
+
+.social-link-item {
+  width: calc(33.3333% - 0.666667rem);
+}
+
+@media (max-width: 1220px) {
+  .social-link-item {
+    width: calc(50% - 0.5rem);
+  }
+}
+
+@media (max-width: 532px) {
+  .social-link-item {
+    width: calc(100% - 0rem);
+  }
 }
 
 /* ////////////////////// */
@@ -37,7 +61,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px #fff inset !important; /* Change #fff to your desired color */
+  -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
   box-shadow: 0 0 0 1000px #fff inset !important;
   /* -webkit-text-fill-color: #000 !important; Change to your desired text color */
   transition: background-color 5000s ease-in-out 0s;

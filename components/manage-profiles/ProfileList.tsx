@@ -1,4 +1,5 @@
 "use client";
+
 import useSWR from "swr";
 import { getUserProfiles } from "@/lib/profile";
 import Button from "../ui/Buttons";
